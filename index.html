@@ -1894,38 +1894,22 @@
     });
   }
 
-  function fetchRakutenJSONP(keyword, apiKey) {
-    return new Promise((resolve) => {
-      const cbName = "rakutenCb_" + Date.now();
-      const sortMap = { review: "-reviewCount", price_asc: "+itemPrice", price_desc: "-itemPrice", new: "-updateTimestamp" };
-      const sort = sortMap[document.getElementById("sortSelect")?.value] || "-reviewCount";
-      const url = `https://app.rakuten.co.jp/services/api/IchibaItem/Search/20170706?format=json&callback=${cbName}&keyword=${encodeURIComponent(keyword)}&applicationId=${apiKey}&hits=12&sort=${sort}&availability=1`;
-
-      const timeout = setTimeout(() => {
-        delete window[cbName];
-        const errEl = document.getElementById("api-error");
-        if (errEl) { errEl.textContent = "⚠️ 楽天APIの取得がタイムアウトしました。APIキーを確認してください。"; errEl.style.display = "block"; }
-        resolve([]);
-      }, 8000);
-
-      window[cbName] = (data) => {
-        clearTimeout(timeout);
-        delete window[cbName];
-        if (data.error || !data.Items) { resolve([]); return; }
-        resolve(data.Items.map(i => ({ ...i.Item, name: i.Item.itemName, price: i.Item.itemPrice, source: "rakuten" })));
-      };
-
-      const script = document.createElement("script");
-      script.src = url;
-      script.onerror = () => { clearTimeout(timeout); delete window[cbName]; resolve([]); };
-      document.head.appendChild(script);
-      setTimeout(() => { try { document.head.removeChild(script); } catch(e){} }, 10000);
-    });
-  }
-
   async function fetchRakuten(keyword, apiKey) {
     if (!apiKey) return DEMO_ITEMS_RAKUTEN;
-    return await fetchRakutenJSONP(keyword, apiKey);
+    try {
+      const sortMap = { review: "-reviewCount", price_asc: "+itemPrice", price_desc: "-itemPrice", new: "-updateTimestamp" };
+      const sort = sortMap[document.getElementById("sortSelect")?.value] || "-reviewCount";
+      // CORSプロキシ経由で楽天APIを叩く
+      const rakutenUrl = `https://app.rakuten.co.jp/services/api/IchibaItem/Search/20170706?format=json&keyword=${encodeURIComponent(keyword)}&applicationId=${apiKey}&hits=12&sort=${sort}&availability=1`;
+      const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(rakutenUrl)}`;
+      const res = await fetch(proxyUrl);
+      const data = await res.json();
+      if (data.error || !data.Items) return DEMO_ITEMS_RAKUTEN;
+      return data.Items.map(i => ({ ...i.Item, name: i.Item.itemName, price: i.Item.itemPrice, source: "rakuten" }));
+    } catch(e) {
+      console.error("楽天API error:", e);
+      return DEMO_ITEMS_RAKUTEN;
+    }
   }
 
   async function fetchYahoo(keyword, apiKey) {
