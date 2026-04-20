@@ -16,7 +16,7 @@ jobs:
       - name: Fetch Rakuten Items
         run: |
           mkdir -p data
-          curl -s "https://app.rakuten.co.jp/services/api/IchibaItem/Search/20220601?applicationId=1c2d4f71-981f-4513-ab9f-f5358b6b282e&affiliateId=5306fc91.33d74cc8.5306fc92.24073313&keyword=%E7%A6%8F%E8%A2%8B&hits=30&sort=-reviewCount&format=json" -o data/rakuten.json
+          curl -s "https://app.rakuten.co.jp/services/api/IchibaItem/Search/20170701?applicationId=1c2d4f71-981f-4513-ab9f-f5358b6b282e&affiliateId=5306fc91.33d74cc8.5306fc92.24073313&keyword=%E7%A6%8F%E8%A2%8B&hits=30&sort=-reviewCount&format=json" -o data/rakuten.json
           echo "取得件数: $(cat data/rakuten.json | python3 -c 'import sys,json; d=json.load(sys.stdin); print(len(d.get("Items",[])))' 2>/dev/null || echo '不明')"
 
       - name: Commit if changed
