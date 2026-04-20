@@ -1901,9 +1901,10 @@
       const sort = sortMap[document.getElementById("sortSelect")?.value] || "-reviewCount";
       // CORSプロキシ経由で楽天APIを叩く
       const rakutenUrl = `https://app.rakuten.co.jp/services/api/IchibaItem/Search/20170706?format=json&keyword=${encodeURIComponent(keyword)}&applicationId=${apiKey}&hits=12&sort=${sort}&availability=1`;
-      const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(rakutenUrl)}`;
+      const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(rakutenUrl)}`;
       const res = await fetch(proxyUrl);
-      const data = await res.json();
+      const wrapper = await res.json();
+      const data = JSON.parse(wrapper.contents);
       if (data.error || !data.Items) return DEMO_ITEMS_RAKUTEN;
       return data.Items.map(i => ({ ...i.Item, name: i.Item.itemName, price: i.Item.itemPrice, source: "rakuten" }));
     } catch(e) {
@@ -2078,9 +2079,10 @@
       let foundNew = 0;
       for (const kw of keywords) {
         const rakutenUrl = `https://app.rakuten.co.jp/services/api/IchibaItem/Search/20170706?format=json&keyword=${encodeURIComponent(kw)}&applicationId=${apiKey}&hits=10&sort=-updateTimestamp&availability=1`;
-        const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(rakutenUrl)}`;
+        const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(rakutenUrl)}`;
         const res = await fetch(proxyUrl);
-        const data = await res.json();
+        const wrapper = await res.json();
+        const data = JSON.parse(wrapper.contents);
         if (data.error) { addLog(`⚠️ APIエラー: ${data.error_description}`, "err"); continue; }
         const items = (data.Items || []).map(i => i.Item);
         for (const item of items) {
