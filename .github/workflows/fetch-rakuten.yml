@@ -16,13 +16,32 @@ jobs:
       - name: Fetch Rakuten Items
         run: |
           mkdir -p data
-          curl -s "https://app.rakuten.co.jp/services/api/IchibaItem/Search/20170706?format=json&applicationId=1c2d4f71-981f-4513-ab9f-f5358b6b282e&keyword=%E7%A6%8F%E8%A2%8B&hits=30&sort=-reviewCount&availability=1" -o data/rakuten.json
-          cat data/rakuten.json
+          curl -s -o data/rakuten_tmp.json \
+            "https://app.rakuten.co.jp/services/api/IchibaItem/Search/20220601?format=json&applicationId=1c2d4f71-981f-4513-ab9f-f5358b6b282e&affiliateId=5306fc91.33d74cc8.5306fc92.24073313&keyword=%E7%A6%8F%E8%A2%8B&hits=30&sort=-reviewCount&availability=1"
+
+          echo "=== レスポンス確認 ==="
+          cat data/rakuten_tmp.json | head -c 300
+
+          python3 - <<'EOF'
+          import json, sys
+          with open('data/rakuten_tmp.json') as f:
+              d = json.load(f)
+          if 'error' in d:
+              print(f"APIエラー: {d}")
+              sys.exit(1)
+          count = len(d.get('Items', []))
+          print(f"取得件数: {count}")
+          if count == 0:
+              sys.exit(1)
+          EOF
+
+          mv data/rakuten_tmp.json data/rakuten.json
+          echo "保存完了: data/rakuten.json"
 
       - name: Commit if changed
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add data/rakuten.json
-          git diff --staged --quiet || git commit -m "update rakuten data"
+          git diff --staged --quiet || git commit -m "update rakuten data $(date '+%Y-%m-%d %H:%M')"
           git push
