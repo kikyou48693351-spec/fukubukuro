@@ -2381,14 +2381,11 @@
     });
   }
 
-  // 記事投稿時に自動収集の新着通知もトリガー（ヨドバシ等の手動登録連携）
-  const _origRenderNewItem = renderNewItem;
-
-
+  // カテゴリピルのクリック
+  document.querySelectorAll(".cat-pill").forEach(pill => {
     pill.addEventListener("click", () => {
       document.querySelectorAll(".cat-pill").forEach(p => p.classList.remove("active"));
       pill.classList.add("active");
-      const icon = pill.querySelector(".icon").textContent;
       const label = pill.textContent.trim();
       document.getElementById("searchWord").value = label === "すべて" ? "福袋" : label.replace(/^./, "").trim() + " 福袋";
     });
