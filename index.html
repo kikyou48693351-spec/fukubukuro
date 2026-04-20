@@ -2077,8 +2077,9 @@
       const keywords = ["福袋", "ハッピーバッグ", "happy bag"];
       let foundNew = 0;
       for (const kw of keywords) {
-        const url = `https://app.rakuten.co.jp/services/api/IchibaItem/Search/20170706?format=json&keyword=${encodeURIComponent(kw)}&applicationId=${apiKey}&hits=10&sort=-updateTimestamp&availability=1`;
-        const res = await fetch(url);
+        const rakutenUrl = `https://app.rakuten.co.jp/services/api/IchibaItem/Search/20170706?format=json&keyword=${encodeURIComponent(kw)}&applicationId=${apiKey}&hits=10&sort=-updateTimestamp&availability=1`;
+        const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(rakutenUrl)}`;
+        const res = await fetch(proxyUrl);
         const data = await res.json();
         if (data.error) { addLog(`⚠️ APIエラー: ${data.error_description}`, "err"); continue; }
         const items = (data.Items || []).map(i => i.Item);
