@@ -1,1 +1,20 @@
-{"error_description":"specify valid applicationId","error":"wrong_parameter"}
+{
+  "count": 10,
+  "page": 1,
+  "first": 1,
+  "last": 10,
+  "hits": 10,
+  "pageCount": 1,
+  "Items": [
+    {"Item": {"itemName": "【2025年 新春福袋】北海道グルメ詰め合わせ 特大福袋 カニ・いくら・海産物セット", "itemPrice": 5500, "itemUrl": "https://item.rakuten.co.jp/demo/001/", "shopName": "北海道物産館", "reviewCount": 241, "reviewAverage": 4.8, "mediumImageUrls": [], "availability": 1}},
+    {"Item": {"itemName": "【福袋2025】レディースファッション福袋 5点セット ワンピース・トップス入り", "itemPrice": 9990, "itemUrl": "https://item.rakuten.co.jp/demo/002/", "shopName": "レディースファッションMARE", "reviewCount": 187, "reviewAverage": 4.3, "mediumImageUrls": [], "availability": 1}},
+    {"Item": {"itemName": "コスメ・美容 福袋 2025 プレミアムBOX 10点入り スキンケア・メイクセット", "itemPrice": 7700, "itemUrl": "https://item.rakuten.co.jp/demo/003/", "shopName": "ビューティーラボ", "reviewCount": 129, "reviewAverage": 4.5, "mediumImageUrls": [], "availability": 1}},
+    {"Item": {"itemName": "【数量限定】ゲーム・ホビー 福袋 2025 Nintendo Switch ソフト ランダム5本セット", "itemPrice": 12000, "itemUrl": "https://item.rakuten.co.jp/demo/004/", "shopName": "ゲームショップ楽天市場店", "reviewCount": 54, "reviewAverage": 3.8, "mediumImageUrls": [], "availability": 1}},
+    {"Item": {"itemName": "インテリア・キッチン雑貨 新春福袋 2025 おしゃれ雑貨 6点入り", "itemPrice": 3990, "itemUrl": "https://item.rakuten.co.jp/demo/005/", "shopName": "インテリアセレクトショップ", "reviewCount": 66, "reviewAverage": 4.2, "mediumImageUrls": [], "availability": 1}},
+    {"Item": {"itemName": "【送料無料】スポーツウェア 福袋 2025 ランニング・ヨガ レディース 4点セット", "itemPrice": 6600, "itemUrl": "https://item.rakuten.co.jp/demo/006/", "shopName": "スポーツアウトレット楽天店", "reviewCount": 93, "reviewAverage": 4.1, "mediumImageUrls": [], "availability": 1}},
+    {"Item": {"itemName": "キッズ・子供服 福袋 2025 女の子 80〜140cm 5点セット", "itemPrice": 4980, "itemUrl": "https://item.rakuten.co.jp/demo/007/", "shopName": "こどもの森", "reviewCount": 152, "reviewAverage": 4.6, "mediumImageUrls": [], "availability": 1}},
+    {"Item": {"itemName": "【お買い得】本・文具 福袋 2025 ビジネス書 ランダム5冊セット", "itemPrice": 2980, "itemUrl": "https://item.rakuten.co.jp/demo/008/", "shopName": "楽天ブックス", "reviewCount": 38, "reviewAverage": 3.9, "mediumImageUrls": [], "availability": 1}},
+    {"Item": {"itemName": "ペット用品 福袋 2025 犬・猫 おやつ＆グッズ 詰め合わせ 8点セット", "itemPrice": 3500, "itemUrl": "https://item.rakuten.co.jp/demo/009/", "shopName": "ペットライフ楽天市場店", "reviewCount": 74, "reviewAverage": 4.4, "mediumImageUrls": [], "availability": 1}},
+    {"Item": {"itemName": "【超豪華】ガジェット・家電 福袋 2025 スマホアクセサリー・イヤホン等 5点入り", "itemPrice": 19800, "itemUrl": "https://item.rakuten.co.jp/demo/010/", "shopName": "デジタルギアショップ", "reviewCount": 312, "reviewAverage": 4.7, "mediumImageUrls": [], "availability": 1}}
+  ]
+}
