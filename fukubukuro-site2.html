@@ -1,0 +1,2428 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>福袋ナビ | オンライン福袋・ハッピーバッグ情報まとめ</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=Zen+Kaku+Gothic+New:wght@300;400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --red: #E8506A;
+      --gold: #F4A261;
+      --cream: #FFF5F7;
+      --dark: #3D2040;
+      --mid: #7B4F6E;
+      --light: #FFE4ED;
+      --white: #FFFFFF;
+      --accent: #F77F92;
+      --green: #52B788;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Zen Kaku Gothic New', sans-serif;
+      background: var(--cream);
+      color: var(--dark);
+      overflow-x: hidden;
+    }
+
+    /* ===== HEADER ===== */
+    header {
+      background: linear-gradient(135deg, #6B2D5E 0%, #9B4D8A 100%);
+      padding: 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 3px solid var(--gold);
+      box-shadow: 0 2px 12px rgba(107,45,94,0.2);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 32px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .logo {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .logo-jp {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: white;
+      letter-spacing: 0.05em;
+    }
+
+    .logo-sub {
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.6);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    nav {
+      display: flex;
+      gap: 28px;
+    }
+
+    nav a {
+      color: rgba(255,255,255,0.85);
+      text-decoration: none;
+      font-size: 0.85rem;
+      letter-spacing: 0.05em;
+      transition: color 0.2s;
+      position: relative;
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: white;
+      transition: width 0.3s;
+    }
+
+    nav a:hover { color: white; }
+    nav a:hover::after { width: 100%; }
+
+    /* ===== HERO ===== */
+    .hero {
+      position: relative;
+      background: linear-gradient(150deg, #F9A8C0 0%, #FBBF8A 50%, #F9D5E5 100%);
+      padding: 80px 32px 60px;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .hero::before {
+      content: '福';
+      position: absolute;
+      font-family: 'Noto Serif JP', serif;
+      font-size: 40vw;
+      font-weight: 900;
+      color: rgba(255,255,255,0.25);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      line-height: 1;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: white;
+      color: var(--red);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      padding: 6px 16px;
+      border-radius: 20px;
+      margin-bottom: 24px;
+      animation: fadeDown 0.6s ease both;
+      box-shadow: 0 4px 12px rgba(232,80,106,0.2);
+    }
+
+    .hero h1 {
+      font-family: 'Noto Serif JP', serif;
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 900;
+      color: #3D2040;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      animation: fadeDown 0.6s 0.1s ease both;
+    }
+
+    .hero h1 span {
+      color: var(--red);
+    }
+
+    .hero p {
+      color: #7B4F6E;
+      font-size: 0.95rem;
+      max-width: 520px;
+      margin: 0 auto 40px;
+      line-height: 1.8;
+      animation: fadeDown 0.6s 0.2s ease both;
+    }
+
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      gap: 48px;
+      animation: fadeDown 0.6s 0.3s ease both;
+    }
+
+    .stat {
+      text-align: center;
+    }
+
+    .stat-num {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--red);
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      color: #9B6080;
+      letter-spacing: 0.1em;
+    }
+
+    /* ===== TICKER ===== */
+    .ticker {
+      background: linear-gradient(90deg, #E8506A 0%, #F4A261 100%);
+      padding: 10px 0;
+      overflow: hidden;
+    }
+
+    .ticker-inner {
+      display: flex;
+      gap: 60px;
+      white-space: nowrap;
+      animation: ticker 20s linear infinite;
+    }
+
+    .ticker-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: white;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+
+    .ticker-dot {
+      width: 6px;
+      height: 6px;
+      background: rgba(255,255,255,0.5);
+      border-radius: 50%;
+    }
+
+    @keyframes ticker {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ===== SECTION COMMON ===== */
+    section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 64px 32px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+
+    .section-title {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: var(--dark);
+    }
+
+    .section-title span {
+      color: var(--red);
+    }
+
+    .section-en {
+      font-size: 0.7rem;
+      color: #C48BAA;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    .see-all {
+      margin-left: auto;
+      font-size: 0.8rem;
+      color: var(--red);
+      text-decoration: none;
+      letter-spacing: 0.05em;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: gap 0.2s;
+      font-weight: 700;
+    }
+
+    .see-all:hover { gap: 8px; }
+
+    /* ===== CATEGORY PILLS ===== */
+    .categories {
+      padding-top: 40px;
+      padding-bottom: 0;
+    }
+
+    .cat-grid {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .cat-pill {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border: 1.5px solid #ddd;
+      border-radius: 40px;
+      text-decoration: none;
+      color: var(--mid);
+      font-size: 0.85rem;
+      background: white;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+
+    .cat-pill:hover, .cat-pill.active {
+      background: var(--dark);
+      border-color: var(--dark);
+      color: white;
+    }
+
+    .cat-pill .icon { font-size: 1.1rem; }
+
+    /* ===== FEATURED CARDS ===== */
+    .featured-grid {
+      display: grid;
+      grid-template-columns: 1.6fr 1fr 1fr;
+      gap: 20px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      transition: transform 0.25s, box-shadow 0.25s;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      box-shadow: 0 2px 12px rgba(180,80,120,0.08);
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(232,80,106,0.18);
+    }
+
+    .card-img {
+      width: 100%;
+      aspect-ratio: 16/9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card.large .card-img { aspect-ratio: 4/3; font-size: 6rem; }
+
+    .card-img-bg {
+      position: absolute;
+      inset: 0;
+      opacity: 0.12;
+      font-size: 8rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: var(--red);
+      color: white;
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      letter-spacing: 0.05em;
+    }
+
+    .badge.gold { background: var(--gold); color: white; }
+    .badge.new { background: #52B788; }
+
+    .card-body {
+      padding: 16px 18px 20px;
+    }
+
+    .card-shop {
+      font-size: 0.7rem;
+      color: #999;
+      letter-spacing: 0.05em;
+      margin-bottom: 6px;
+    }
+
+    .card-title {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      line-height: 1.5;
+      margin-bottom: 10px;
+    }
+
+    .card.large .card-title { font-size: 1.2rem; }
+
+    .card-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .card-price {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 1.1rem;
+      font-weight: 900;
+      color: var(--red);
+    }
+
+    .card-price small {
+      font-family: 'Zen Kaku Gothic New', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 400;
+      color: #aaa;
+    }
+
+    .card-rating {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.8rem;
+      color: var(--gold);
+    }
+
+    .card-rating span { color: #777; }
+
+    /* ===== REVIEW SECTION ===== */
+    .review-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .review-card {
+      background: white;
+      border-radius: 16px;
+      padding: 24px;
+      border-left: 4px solid var(--accent);
+      box-shadow: 0 4px 20px rgba(232,80,106,0.08);
+    }
+
+    .review-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .review-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+      border: 2px solid var(--accent);
+    }
+
+    .review-name {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--dark);
+    }
+
+    .review-date {
+      font-size: 0.7rem;
+      color: #aaa;
+    }
+
+    .review-stars {
+      color: var(--gold);
+      font-size: 0.85rem;
+      margin-bottom: 10px;
+    }
+
+    .review-text {
+      font-size: 0.85rem;
+      line-height: 1.8;
+      color: #555;
+    }
+
+    .review-product {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid #eee;
+      font-size: 0.75rem;
+      color: #999;
+    }
+
+    /* ===== CALENDAR ===== */
+    .calendar-section {
+      background: linear-gradient(135deg, #6B2D5E 0%, #9B4D8A 100%);
+      max-width: 100%;
+      padding: 64px 0;
+    }
+
+    .calendar-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    .calendar-inner .section-title { color: white; }
+    .calendar-inner .section-en { color: #666; }
+
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin-top: 32px;
+    }
+
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 100px 24px 1fr;
+      gap: 0 20px;
+      align-items: start;
+      padding: 16px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .timeline-date {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--gold);
+      text-align: right;
+      padding-top: 2px;
+    }
+
+    .timeline-dot-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .timeline-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--gold);
+      flex-shrink: 0;
+      margin-top: 4px;
+    }
+
+    .timeline-line {
+      flex: 1;
+      width: 1px;
+      background: rgba(212,168,67,0.2);
+    }
+
+    .timeline-content {}
+
+    .timeline-shop {
+      font-size: 0.75rem;
+      color: #888;
+      letter-spacing: 0.05em;
+      margin-bottom: 2px;
+    }
+
+    .timeline-title {
+      font-size: 0.9rem;
+      color: white;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .timeline-tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .tag {
+      font-size: 0.65rem;
+      padding: 2px 8px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.08);
+      color: #aaa;
+    }
+
+    .tag.hot { background: rgba(200,16,46,0.3); color: #ff8899; }
+    .tag.limited { background: rgba(212,168,67,0.2); color: var(--gold); }
+
+    /* ===== NEWSLETTER ===== */
+    .newsletter {
+      background: linear-gradient(135deg, #E8506A 0%, #F4A261 100%);
+      border-radius: 24px;
+      padding: 56px 48px;
+      text-align: center;
+      margin: 0 32px 64px;
+      max-width: 1136px;
+      margin-left: auto;
+      margin-right: auto;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 12px 40px rgba(232,80,106,0.3);
+    }
+
+    .newsletter::before {
+      content: '🎁';
+      position: absolute;
+      font-size: 20rem;
+      opacity: 0.05;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .newsletter h2 {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: white;
+      margin-bottom: 12px;
+    }
+
+    .newsletter p {
+      color: rgba(255,255,255,0.75);
+      font-size: 0.9rem;
+      margin-bottom: 32px;
+      line-height: 1.8;
+    }
+
+    .email-form {
+      display: flex;
+      gap: 12px;
+      max-width: 440px;
+      margin: 0 auto;
+    }
+
+    .email-form input {
+      flex: 1;
+      padding: 14px 18px;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-family: inherit;
+      background: rgba(255,255,255,0.15);
+      color: white;
+      outline: none;
+    }
+
+    .email-form input::placeholder { color: rgba(255,255,255,0.5); }
+
+    .email-form button {
+      padding: 14px 24px;
+      background: var(--gold);
+      color: var(--dark);
+      border: none;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: opacity 0.2s;
+    }
+
+    .email-form button:hover { opacity: 0.85; }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: linear-gradient(135deg, #3D2040 0%, #5C2E52 100%);
+      padding: 48px 32px 24px;
+      border-top: 3px solid var(--gold);
+    }
+
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .footer-top {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+
+    .footer-logo-jp {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+
+    .footer-desc {
+      font-size: 0.8rem;
+      color: #777;
+      line-height: 1.8;
+    }
+
+    .footer-col h4 {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #ccc;
+      letter-spacing: 0.1em;
+      margin-bottom: 14px;
+    }
+
+    .footer-col ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .footer-col ul li a {
+      font-size: 0.8rem;
+      color: #666;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-col ul li a:hover { color: var(--gold); }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.07);
+      padding-top: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.75rem;
+      color: #555;
+    }
+
+    /* ===== API SECTION ===== */
+    .api-box {
+      background: white;
+      border-radius: 16px;
+      padding: 28px;
+      margin-bottom: 28px;
+      box-shadow: 0 4px 20px rgba(232,80,106,0.08);
+      border: 2px dashed #F9C0CF;
+    }
+
+    .api-info {
+      font-size: 0.9rem;
+      color: var(--mid);
+      margin-bottom: 16px;
+      font-weight: 700;
+    }
+
+    .api-controls {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+
+    .api-controls input {
+      flex: 1;
+      min-width: 200px;
+      padding: 12px 16px;
+      border: 1.5px solid #F9C0CF;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-family: inherit;
+      color: var(--dark);
+      outline: none;
+      transition: border-color 0.2s;
+      background: var(--cream);
+    }
+
+    .api-controls input:focus { border-color: var(--red); }
+
+    .api-controls button {
+      padding: 12px 24px;
+      background: linear-gradient(135deg, var(--red) 0%, var(--gold) 100%);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .api-controls button:hover { opacity: 0.9; transform: translateY(-1px); }
+    .api-controls button:active { transform: translateY(0); }
+
+    .api-note {
+      font-size: 0.75rem;
+      color: #aaa;
+      line-height: 1.6;
+    }
+
+    .api-note a { color: var(--red); }
+
+    .api-loading {
+      text-align: center;
+      padding: 48px;
+      color: var(--mid);
+      font-size: 0.9rem;
+    }
+
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid var(--light);
+      border-top-color: var(--red);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 16px;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .api-error {
+      background: #FFF0F3;
+      border: 1.5px solid #F9C0CF;
+      border-radius: 12px;
+      padding: 16px 20px;
+      color: var(--red);
+      font-size: 0.85rem;
+      margin-bottom: 16px;
+    }
+
+    .api-results-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px;
+    }
+
+    .api-card {
+      background: white;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(180,80,120,0.08);
+      transition: transform 0.2s, box-shadow 0.2s;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .api-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 30px rgba(232,80,106,0.15);
+    }
+
+    .api-card-img {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      background: var(--light);
+    }
+
+    .api-card-img-placeholder {
+      width: 100%;
+      aspect-ratio: 1;
+      background: linear-gradient(135deg, #FFE4ED, #FFF0E0);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+    }
+
+    .api-card-body {
+      padding: 14px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .api-card-shop {
+      font-size: 0.65rem;
+      color: #bbb;
+      letter-spacing: 0.05em;
+    }
+
+    .api-card-title {
+      font-size: 0.82rem;
+      font-weight: 700;
+      line-height: 1.5;
+      color: var(--dark);
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .api-card-price {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 1rem;
+      font-weight: 900;
+      color: var(--red);
+      margin-top: auto;
+    }
+
+    .api-card-review {
+      font-size: 0.72rem;
+      color: var(--gold);
+    }
+
+    .api-card-btn {
+      display: block;
+      text-align: center;
+      background: linear-gradient(135deg, var(--red), var(--gold));
+      color: white;
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 10px;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+
+    .api-card-btn:hover { opacity: 0.85; }
+
+    /* ===== SOURCE TABS ===== */
+    .source-tabs {
+      display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap;
+    }
+    .source-tab {
+      padding: 9px 20px; border: 2px solid #eee; border-radius: 30px;
+      background: white; font-size: 0.85rem; font-weight: 700; font-family: inherit;
+      color: #aaa; cursor: pointer; transition: all 0.2s;
+    }
+    .source-tab.active { border-color: var(--red); color: var(--red); background: #fff0f3; }
+    .source-tab:hover { border-color: var(--red); color: var(--red); }
+
+    .api-keys-grid { display: flex; flex-direction: column; gap: 10px; }
+    .api-key-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .api-source-badge {
+      font-size: 0.7rem; font-weight: 700; padding: 4px 10px; border-radius: 20px;
+      white-space: nowrap; flex-shrink: 0;
+    }
+    .rakuten-badge { background: #bf0000; color: white; }
+    .yahoo-badge { background: #FF0033; color: white; }
+    .api-key-row input {
+      flex: 1; min-width: 180px; padding: 10px 14px; border: 1.5px solid #F9C0CF;
+      border-radius: 10px; font-size: 0.85rem; font-family: inherit;
+      color: var(--dark); background: var(--cream); outline: none;
+    }
+    .api-key-row input:focus { border-color: var(--red); }
+    .api-get-link {
+      font-size: 0.75rem; color: var(--red); text-decoration: none; white-space: nowrap;
+      font-weight: 700;
+    }
+    .results-meta {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 4px; margin-bottom: 12px; font-size: 0.82rem; color: #888;
+    }
+    .source-legend { display: flex; align-items: center; font-size: 0.78rem; color: #aaa; }
+    .legend-dot {
+      width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 5px;
+    }
+    .rakuten-dot { background: #bf0000; }
+    .yahoo-dot { background: #FF6600; }
+    .api-card-source {
+      position: absolute; top: 8px; right: 8px; font-size: 0.6rem; font-weight: 700;
+      padding: 2px 7px; border-radius: 10px; color: white;
+    }
+    .src-rakuten { background: #bf0000; }
+    .src-yahoo { background: #FF6600; }
+    .api-card { position: relative; }
+
+    /* ===== AUTO COLLECT SECTION ===== */
+    .auto-section {
+      background: linear-gradient(135deg, #fff0f5 0%, #fff8f0 100%);
+      border-top: 3px solid var(--light);
+      border-bottom: 3px solid var(--light);
+      padding: 64px 0;
+    }
+    .auto-inner { max-width: 1200px; margin: 0 auto; padding: 0 32px; }
+    .auto-status-bar {
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 12px; background: white; border-radius: 14px;
+      padding: 16px 24px; margin-bottom: 20px;
+      box-shadow: 0 2px 12px rgba(232,80,106,0.07);
+    }
+    .auto-status-left { display: flex; align-items: center; gap: 14px; }
+    .pulse-dot {
+      width: 10px; height: 10px; border-radius: 50%; background: #52B788;
+      animation: pulse-anim 2s infinite; flex-shrink: 0;
+    }
+    .pulse-dot.waiting { background: var(--gold); }
+    @keyframes pulse-anim {
+      0% { box-shadow: 0 0 0 0 rgba(82,183,136,0.5); }
+      70% { box-shadow: 0 0 0 8px rgba(82,183,136,0); }
+      100% { box-shadow: 0 0 0 0 rgba(82,183,136,0); }
+    }
+    .auto-status-text { font-size: 0.85rem; color: var(--mid); }
+    .auto-status-text strong { color: var(--dark); font-weight: 700; }
+    .auto-controls-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .auto-apikey-input, .auto-interval-select, .notify-email-input {
+      padding: 8px 14px; border: 1.5px solid #F9C0CF; border-radius: 8px;
+      font-size: 0.82rem; font-family: inherit; color: var(--dark);
+      background: var(--cream); outline: none;
+    }
+    .auto-apikey-input { width: 220px; }
+    .auto-interval-select { cursor: pointer; }
+    .notify-email-input { width: 210px; }
+    .btn-start {
+      padding: 9px 20px; background: linear-gradient(135deg, #52B788, #2d9966);
+      color: white; border: none; border-radius: 8px; font-size: 0.82rem;
+      font-weight: 700; font-family: inherit; cursor: pointer; white-space: nowrap;
+      transition: opacity 0.2s;
+    }
+    .btn-stop {
+      padding: 9px 20px; background: #eee; color: #999; border: none;
+      border-radius: 8px; font-size: 0.82rem; font-weight: 700;
+      font-family: inherit; cursor: pointer; transition: all 0.2s; white-space: nowrap;
+    }
+    .btn-stop:hover { background: #ffd6de; color: var(--red); }
+    .btn-start:hover { opacity: 0.85; }
+    .btn-notify {
+      padding: 9px 18px; background: linear-gradient(135deg, #9B4D8A, #E8506A);
+      color: white; border: none; border-radius: 8px; font-size: 0.82rem;
+      font-weight: 700; font-family: inherit; cursor: pointer; transition: opacity 0.2s;
+    }
+    .btn-notify:hover { opacity: 0.85; }
+    .auto-log {
+      background: white; border-radius: 14px; overflow: hidden; margin-bottom: 20px;
+      box-shadow: 0 2px 12px rgba(232,80,106,0.07);
+    }
+    .auto-log-header {
+      padding: 12px 20px; background: linear-gradient(135deg, #fce8ef, #fdf0e8);
+      font-size: 0.78rem; font-weight: 700; color: var(--mid);
+      display: flex; align-items: center; gap: 8px; border-bottom: 1px solid #f5dde5;
+    }
+    .auto-log-body {
+      padding: 12px 20px; max-height: 150px; overflow-y: auto;
+      font-size: 0.78rem; font-family: 'Courier New', monospace; color: #555; line-height: 1.9;
+    }
+    .log-line { display: flex; gap: 10px; }
+    .log-time { color: #bbb; flex-shrink: 0; }
+    .log-new { color: #52B788; font-weight: 700; }
+    .log-warn { color: var(--gold); }
+    .log-err { color: var(--red); }
+    .new-items-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 14px; }
+    .new-item-card {
+      background: white; border-radius: 14px; padding: 16px;
+      box-shadow: 0 2px 12px rgba(232,80,106,0.08); border-top: 3px solid #52B788;
+      display: flex; flex-direction: column; gap: 8px;
+      animation: slideIn 0.4s ease both;
+    }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .new-item-badge {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-size: 0.65rem; font-weight: 700; color: #52B788;
+      background: #e8f7f0; padding: 3px 8px; border-radius: 20px; width: fit-content;
+    }
+    .new-item-title {
+      font-size: 0.82rem; font-weight: 700; color: var(--dark); line-height: 1.5;
+      display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .new-item-shop { font-size: 0.72rem; color: #aaa; }
+    .new-item-price { font-family: 'Noto Serif JP', serif; font-size: 1rem; font-weight: 900; color: var(--red); }
+    .new-item-link {
+      display: block; text-align: center; background: linear-gradient(135deg, var(--red), var(--gold));
+      color: white; font-size: 0.75rem; font-weight: 700; padding: 8px;
+      border-radius: 8px; text-decoration: none; margin-top: 4px; transition: opacity 0.2s;
+    }
+    .new-item-link:hover { opacity: 0.85; }
+    .auto-empty { text-align: center; padding: 48px 20px; color: #ccc; font-size: 0.88rem; }
+    .auto-empty .big-icon { font-size: 3rem; display: block; margin-bottom: 12px; }
+    .notify-row { display: flex; align-items: center; gap: 12px; margin-top: 14px; flex-wrap: wrap; }
+    .notify-label { font-size: 0.8rem; color: var(--mid); font-weight: 700; }
+    .notify-saved { font-size: 0.78rem; color: #52B788; display: none; }
+
+    /* ===== NOTIFICATION SETTINGS ===== */
+    .notify-section {
+      background: white; border-radius: 16px; padding: 24px 28px; margin-bottom: 20px;
+      box-shadow: 0 2px 12px rgba(232,80,106,0.07); border-left: 4px solid #9B4D8A;
+    }
+    .notify-section-title {
+      font-size: 0.9rem; font-weight: 700; color: var(--dark); margin-bottom: 16px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .notify-shops-grid {
+      display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 16px;
+    }
+    .shop-toggle {
+      display: flex; align-items: center; gap: 6px; padding: 7px 14px;
+      border: 1.5px solid #eee; border-radius: 20px; cursor: pointer;
+      font-size: 0.8rem; font-weight: 700; color: #aaa; background: #fafafa;
+      transition: all 0.2s; user-select: none;
+    }
+    .shop-toggle.on { border-color: var(--red); color: var(--red); background: #fff0f3; }
+    .shop-toggle input { display: none; }
+    .notif-permission-btn {
+      padding: 9px 20px; background: linear-gradient(135deg, #9B4D8A, #6B2D5E);
+      color: white; border: none; border-radius: 10px; font-size: 0.82rem;
+      font-weight: 700; font-family: inherit; cursor: pointer; transition: opacity 0.2s;
+    }
+    .notif-permission-btn:hover { opacity: 0.85; }
+    .notif-status { font-size: 0.78rem; margin-top: 8px; color: #aaa; }
+    .notif-status.granted { color: #52B788; }
+    .notif-status.denied { color: var(--red); }
+
+    /* ===== ARTICLE EDITOR ===== */
+    .editor-section {
+      background: white; border-radius: 16px; overflow: hidden;
+      box-shadow: 0 4px 20px rgba(232,80,106,0.08);
+    }
+    .editor-header {
+      background: linear-gradient(135deg, #6B2D5E, #9B4D8A);
+      padding: 16px 24px; display: flex; align-items: center; justify-content: space-between;
+    }
+    .editor-header-title { color: white; font-size: 0.95rem; font-weight: 700; }
+    .editor-body { padding: 24px; }
+    .editor-row { margin-bottom: 16px; }
+    .editor-label {
+      display: block; font-size: 0.78rem; font-weight: 700; color: var(--mid);
+      margin-bottom: 6px; letter-spacing: 0.05em;
+    }
+    .editor-input, .editor-textarea, .editor-select {
+      width: 100%; padding: 11px 14px; border: 1.5px solid #F9C0CF; border-radius: 10px;
+      font-size: 0.88rem; font-family: inherit; color: var(--dark);
+      background: var(--cream); outline: none; transition: border-color 0.2s;
+    }
+    .editor-input:focus, .editor-textarea:focus { border-color: var(--red); }
+    .editor-textarea { min-height: 120px; resize: vertical; line-height: 1.7; }
+    .editor-row-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .editor-row-3col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+    .btn-publish {
+      width: 100%; padding: 14px; background: linear-gradient(135deg, var(--red), var(--gold));
+      color: white; border: none; border-radius: 12px; font-size: 1rem; font-weight: 700;
+      font-family: inherit; cursor: pointer; transition: opacity 0.2s; margin-top: 8px;
+    }
+    .btn-publish:hover { opacity: 0.88; }
+
+    /* ===== ARTICLE LIST (admin) ===== */
+    .articles-list { margin-top: 20px; display: flex; flex-direction: column; gap: 10px; }
+    .article-admin-card {
+      background: #fafafa; border-radius: 12px; padding: 14px 18px;
+      display: flex; align-items: center; gap: 14px; border: 1.5px solid #eee;
+      animation: slideIn 0.3s ease both;
+    }
+    .article-admin-emoji { font-size: 1.8rem; flex-shrink: 0; }
+    .article-admin-info { flex: 1; min-width: 0; }
+    .article-admin-title { font-size: 0.88rem; font-weight: 700; color: var(--dark); }
+    .article-admin-meta { font-size: 0.72rem; color: #aaa; margin-top: 3px; }
+    .article-admin-actions { display: flex; gap: 6px; flex-shrink: 0; }
+    .btn-del {
+      padding: 5px 12px; background: #fff0f3; color: var(--red); border: 1.5px solid #ffd6de;
+      border-radius: 8px; font-size: 0.75rem; font-weight: 700; font-family: inherit;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .btn-del:hover { background: var(--red); color: white; }
+
+    /* ===== PUBLISHED ARTICLES on TOP ===== */
+    .top-articles-section { padding-top: 0; }
+    .articles-feed { display: flex; flex-direction: column; gap: 16px; }
+    .article-card {
+      background: white; border-radius: 14px; padding: 20px 24px;
+      box-shadow: 0 2px 12px rgba(232,80,106,0.07); display: flex; gap: 18px;
+      align-items: flex-start; transition: transform 0.2s, box-shadow 0.2s;
+      animation: slideIn 0.4s ease both;
+    }
+    .article-card:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(232,80,106,0.13); }
+    .article-card-emoji { font-size: 2.5rem; flex-shrink: 0; }
+    .article-card-body { flex: 1; min-width: 0; }
+    .article-card-cat {
+      font-size: 0.65rem; font-weight: 700; padding: 2px 8px; border-radius: 20px;
+      background: var(--light); color: var(--red); display: inline-block; margin-bottom: 6px;
+    }
+    .article-card-title { font-family: 'Noto Serif JP', serif; font-size: 1rem; font-weight: 700; color: var(--dark); margin-bottom: 6px; }
+    .article-card-body-text { font-size: 0.82rem; color: #777; line-height: 1.7; margin-bottom: 10px;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .article-card-footer { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .article-card-meta { font-size: 0.72rem; color: #bbb; }
+    .article-card-price { font-family: 'Noto Serif JP', serif; font-size: 0.95rem; font-weight: 900; color: var(--red); }
+    .article-card-link {
+      font-size: 0.75rem; font-weight: 700; color: var(--red); text-decoration: none;
+      padding: 5px 12px; border: 1.5px solid var(--accent); border-radius: 20px;
+      transition: all 0.2s; white-space: nowrap;
+    }
+    .article-card-link:hover { background: var(--red); color: white; border-color: var(--red); }
+    .articles-empty { text-align: center; padding: 40px; color: #ccc; font-size: 0.88rem; }
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      .featured-grid { grid-template-columns: 1fr; }
+      .review-grid { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+      nav { display: none; }
+      .hero-stats { gap: 24px; }
+      .email-form { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <a class="logo" href="#">
+      <span class="logo-jp">福袋ナビ</span>
+      <span class="logo-sub">Happy Bag Japan</span>
+    </a>
+    <nav>
+      <a href="#">新着情報</a>
+      <a href="#">カテゴリ</a>
+      <a href="#">店舗別</a>
+      <a href="#">開封レビュー</a>
+      <a href="#">発売カレンダー</a>
+    </nav>
+  </div>
+</header>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner">
+    <div class="ticker-item"><span class="ticker-dot"></span>🔥 Amazon福袋2025 受付開始！</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>💰 楽天スーパーSALE 福袋特集</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>👗 ZOZOTOWNファッション福袋 残りわずか</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>🎮 ゲーム福袋 開封レビュー更新</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>🔥 Amazon福袋2025 受付開始！</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>💰 楽天スーパーSALE 福袋特集</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>👗 ZOZOTOWNファッション福袋 残りわずか</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>🎮 ゲーム福袋 開封レビュー更新</div>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">✨ 2025年 福袋情報 毎日更新中</div>
+  <h1>オンライン<span>福袋</span>を<br>まとめて比較</h1>
+  <p>Amazon・楽天・ZOZOTOWN など人気ECサイトの<br>福袋・ハッピーバッグ情報をいち早くお届け</p>
+  <div class="hero-stats">
+    <div class="stat">
+      <div class="stat-num">2,400+</div>
+      <div class="stat-label">福袋情報</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">580+</div>
+      <div class="stat-label">開封レビュー</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">120+</div>
+      <div class="stat-label">掲載ショップ</div>
+    </div>
+  </div>
+</div>
+
+<!-- CATEGORIES -->
+<section class="categories">
+  <div class="cat-grid">
+    <div class="cat-pill active"><span class="icon">🛍️</span> すべて</div>
+    <div class="cat-pill"><span class="icon">👗</span> ファッション</div>
+    <div class="cat-pill"><span class="icon">🍱</span> 食品・グルメ</div>
+    <div class="cat-pill"><span class="icon">🎮</span> ゲーム・ホビー</div>
+    <div class="cat-pill"><span class="icon">💄</span> コスメ・美容</div>
+    <div class="cat-pill"><span class="icon">🏠</span> インテリア</div>
+    <div class="cat-pill"><span class="icon">📚</span> 本・文具</div>
+    <div class="cat-pill"><span class="icon">⚽</span> スポーツ</div>
+    <div class="cat-pill"><span class="icon">🧸</span> キッズ</div>
+  </div>
+</section>
+
+<!-- COMBINED SEARCH SECTION -->
+<section id="api-section">
+  <div class="section-header">
+    <div>
+      <div class="section-en">Live Search</div>
+      <h2 class="section-title">楽天 ＆ Yahoo!<span>まとめて検索</span></h2>
+    </div>
+  </div>
+
+  <!-- ソース切り替えタブ -->
+  <div class="source-tabs">
+    <button class="source-tab active" onclick="switchSource('both')" id="tab-both">🔀 両方まとめて</button>
+    <button class="source-tab" onclick="switchSource('rakuten')" id="tab-rakuten">🛒 楽天市場</button>
+    <button class="source-tab" onclick="switchSource('yahoo')" id="tab-yahoo">🟡 Yahoo!ショッピング</button>
+  </div>
+
+  <div class="api-box">
+    <div class="api-keys-grid">
+      <!-- 楽天 -->
+      <div class="api-key-row">
+        <span class="api-source-badge rakuten-badge">楽天</span>
+        <input type="text" id="apiKey" placeholder="楽天アプリID（空欄でデモ表示）" />
+        <a class="api-get-link" href="https://webservice.rakuten.co.jp/" target="_blank">取得 →</a>
+      </div>
+      <!-- Yahoo -->
+      <div class="api-key-row">
+        <span class="api-source-badge yahoo-badge">Yahoo!</span>
+        <input type="text" id="yahooApiKey" placeholder="Yahoo!アプリID（空欄でデモ表示）" />
+        <a class="api-get-link" href="https://developer.yahoo.co.jp/webapi/shopping/" target="_blank">取得 →</a>
+      </div>
+    </div>
+    <div class="api-controls" style="margin-top:14px">
+      <input type="text" id="searchWord" value="福袋" placeholder="検索キーワード" />
+      <select id="sortSelect" style="padding:12px 14px;border:1.5px solid #F9C0CF;border-radius:10px;font-family:inherit;font-size:0.88rem;background:var(--cream);color:var(--dark);outline:none">
+        <option value="review">レビュー数順</option>
+        <option value="price_asc">価格が安い順</option>
+        <option value="price_desc">価格が高い順</option>
+        <option value="new">新着順</option>
+      </select>
+      <button onclick="searchAll()">🔍 まとめて検索</button>
+    </div>
+    <div class="api-note">※ APIキーは各サービスで無料取得できます。空欄のままでもデモデータが表示されます。</div>
+  </div>
+
+  <!-- 結果ヘッダー -->
+  <div class="results-meta" id="resultsMeta" style="display:none">
+    <span id="resultsCount"></span>
+    <div class="source-legend">
+      <span class="legend-dot rakuten-dot"></span>楽天市場
+      <span class="legend-dot yahoo-dot" style="margin-left:14px"></span>Yahoo!ショッピング
+    </div>
+  </div>
+
+  <div id="api-loading" class="api-loading" style="display:none">
+    <div class="spinner"></div><p id="loadingText">検索中...</p>
+  </div>
+  <div id="api-error" class="api-error" style="display:none"></div>
+  <div id="api-results" class="api-results-grid"></div>
+</section>
+
+<!-- FEATURED -->
+<section>
+  <div class="section-header">
+    <div>
+      <div class="section-en">Featured</div>
+      <h2 class="section-title">注目の<span>福袋</span></h2>
+    </div>
+    <a href="#" class="see-all">すべて見る →</a>
+  </div>
+
+  <div class="featured-grid">
+    <!-- Large Card -->
+    <a href="#" class="card large">
+      <div class="card-img" style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);">
+        <div class="card-img-bg">🛍️</div>
+        🎁
+        <div class="badge gold">🔥 人気No.1</div>
+      </div>
+      <div class="card-body">
+        <div class="card-shop">Amazon.co.jp</div>
+        <div class="card-title">Amazon タイムセール祭り 福袋 ガジェット＆家電スペシャルBOX</div>
+        <div class="card-meta">
+          <div class="card-price">¥19,800 <small>（参考）¥40,000相当</small></div>
+          <div class="card-rating">★★★★★ <span>(312)</span></div>
+        </div>
+      </div>
+    </a>
+
+    <!-- Small Card 1 -->
+    <a href="#" class="card">
+      <div class="card-img" style="background: linear-gradient(135deg, #2d1b33 0%, #4a1942 100%);">
+        <div class="card-img-bg">👗</div>
+        👗
+        <div class="badge new">NEW</div>
+      </div>
+      <div class="card-body">
+        <div class="card-shop">ZOZOTOWN</div>
+        <div class="card-title">ZOZO ファッション福袋 2025 レディース</div>
+        <div class="card-meta">
+          <div class="card-price">¥9,990</div>
+          <div class="card-rating">★★★★☆ <span>(87)</span></div>
+        </div>
+      </div>
+    </a>
+
+    <!-- Small Card 2 -->
+    <a href="#" class="card">
+      <div class="card-img" style="background: linear-gradient(135deg, #1a2f1a 0%, #0d3b0d 100%);">
+        <div class="card-img-bg">🍱</div>
+        🍣
+        <div class="badge" style="background:#1A7F4B">食品</div>
+      </div>
+      <div class="card-body">
+        <div class="card-shop">楽天市場</div>
+        <div class="card-title">北海道グルメ詰め合わせ 特大福袋 2025</div>
+        <div class="card-meta">
+          <div class="card-price">¥5,500</div>
+          <div class="card-rating">★★★★★ <span>(241)</span></div>
+        </div>
+      </div>
+    </a>
+
+    <!-- Bottom row -->
+    <a href="#" class="card">
+      <div class="card-img" style="background: linear-gradient(135deg, #1a1205 0%, #2d1f08 100%);">
+        <div class="card-img-bg">🎮</div>
+        🎮
+        <div class="badge">ゲーム</div>
+      </div>
+      <div class="card-body">
+        <div class="card-shop">ヨドバシカメラ</div>
+        <div class="card-title">Switch ソフト ランダム福袋 5本入り</div>
+        <div class="card-meta">
+          <div class="card-price">¥12,000</div>
+          <div class="card-rating">★★★☆☆ <span>(54)</span></div>
+        </div>
+      </div>
+    </a>
+
+    <a href="#" class="card">
+      <div class="card-img" style="background: linear-gradient(135deg, #2d1030 0%, #1a0820 100%);">
+        <div class="card-img-bg">💄</div>
+        💄
+        <div class="badge gold">限定</div>
+      </div>
+      <div class="card-body">
+        <div class="card-shop">LOHACO by ASKUL</div>
+        <div class="card-title">コスメ福袋 2025 プレミアムBOX</div>
+        <div class="card-meta">
+          <div class="card-price">¥7,700</div>
+          <div class="card-rating">★★★★☆ <span>(129)</span></div>
+        </div>
+      </div>
+    </a>
+
+    <a href="#" class="card">
+      <div class="card-img" style="background: linear-gradient(135deg, #0d1a2e 0%, #0a1020 100%);">
+        <div class="card-img-bg">🏠</div>
+        🏡
+        <div class="badge new">NEW</div>
+      </div>
+      <div class="card-body">
+        <div class="card-shop">IKEA Japan</div>
+        <div class="card-title">インテリア・キッチン雑貨 新春福袋</div>
+        <div class="card-meta">
+          <div class="card-price">¥3,990</div>
+          <div class="card-rating">★★★★☆ <span>(66)</span></div>
+        </div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- AUTO COLLECT SECTION -->
+<div class="auto-section">
+  <div class="auto-inner">
+    <div class="auto-header">
+      <div>
+        <div class="section-en">Auto Collect</div>
+        <h2 class="section-title">🔄 新着福袋<span>自動収集</span></h2>
+      </div>
+    </div>
+
+    <!-- ステータスバー -->
+    <div class="auto-status-bar">
+      <div class="auto-status-left">
+        <div class="pulse-dot waiting" id="statusDot"></div>
+        <div class="auto-status-text">
+          <strong id="statusText">待機中</strong>
+          <span id="lastChecked"> — まだ収集していません</span>
+        </div>
+      </div>
+      <div class="auto-controls-row">
+        <input class="auto-apikey-input" id="autoApiKey" type="text" placeholder="楽天アプリID（任意）" />
+        <select class="auto-interval-select" id="intervalSelect">
+          <option value="10000">10秒ごと（デモ）</option>
+          <option value="60000">1分ごと</option>
+          <option value="300000">5分ごと</option>
+          <option value="1800000">30分ごと</option>
+          <option value="3600000" selected>1時間ごと</option>
+        </select>
+        <button class="btn-start" id="btnStart" onclick="startAutoCollect()">▶ 自動収集 開始</button>
+        <button class="btn-stop" id="btnStop" onclick="stopAutoCollect()" style="display:none">⏹ 停止</button>
+      </div>
+    </div>
+
+    <!-- メール通知設定 -->
+    <div class="notify-row">
+      <span class="notify-label">🔔 新着通知メール：</span>
+      <input class="notify-email-input" id="notifyEmail" type="email" placeholder="メールアドレス（任意）" />
+      <button class="btn-notify" onclick="saveNotifyEmail()">登録</button>
+      <span class="notify-saved" id="notifySaved">✅ 登録しました！</span>
+    </div>
+
+    <!-- ログ -->
+    <div class="auto-log" style="margin-top:20px">
+      <div class="auto-log-header">📋 収集ログ</div>
+      <div class="auto-log-body" id="autoLog">
+        <div class="log-line"><span class="log-time">--:--:--</span><span>「▶ 自動収集 開始」を押すと収集がスタートします</span></div>
+      </div>
+    </div>
+
+    <!-- 新着アイテム -->
+    <div class="section-header" style="margin-bottom:16px">
+      <div>
+        <div class="section-en">New Arrivals</div>
+        <h3 class="section-title" style="font-size:1.2rem">今回の<span>新着</span> <span id="newCount" style="font-size:0.9rem;color:#aaa;font-weight:400"></span></h3>
+      </div>
+      <button onclick="clearNewItems()" style="font-size:0.75rem;color:#ccc;background:none;border:none;cursor:pointer;margin-left:auto">クリア</button>
+    </div>
+    <div id="newItemsGrid" class="new-items-grid">
+      <div class="auto-empty">
+        <span class="big-icon">🎁</span>
+        自動収集を開始すると、<br>新着の福袋がここに表示されます
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- REVIEWS -->
+<section>
+  <div class="section-header">
+    <div>
+      <div class="section-en">Reviews</div>
+      <h2 class="section-title">開封<span>レビュー</span></h2>
+    </div>
+    <a href="#" class="see-all">すべて見る →</a>
+  </div>
+
+  <div class="review-grid">
+    <div class="review-card">
+      <div class="review-header">
+        <div class="review-avatar">😊</div>
+        <div>
+          <div class="review-name">みかん好きさん</div>
+          <div class="review-date">2025年1月5日</div>
+        </div>
+      </div>
+      <div class="review-stars">★★★★★</div>
+      <div class="review-text">思っていた以上に内容が豪華でした！定価で買ったら2倍以上の価値があると思います。来年も絶対に買います。</div>
+      <div class="review-product">🛍️ Amazon ガジェット福袋</div>
+    </div>
+
+    <div class="review-card">
+      <div class="review-header">
+        <div class="review-avatar">🌸</div>
+        <div>
+          <div class="review-name">ファッション好き</div>
+          <div class="review-date">2025年1月3日</div>
+        </div>
+      </div>
+      <div class="review-stars">★★★★☆</div>
+      <div class="review-text">サイズが少し合わなかったけど、デザインはどれもかわいい！友達にプレゼントしたら喜ばれました。</div>
+      <div class="review-product">👗 ZOZO ファッション福袋</div>
+    </div>
+
+    <div class="review-card">
+      <div class="review-header">
+        <div class="review-avatar">🍖</div>
+        <div>
+          <div class="review-name">グルメ探検家</div>
+          <div class="review-date">2025年1月7日</div>
+        </div>
+      </div>
+      <div class="review-stars">★★★★★</div>
+      <div class="review-text">北海道の食材が全部本格的でびっくり！毛蟹やいくらが入っていて大満足。家族でお正月を豪勢に過ごせました。</div>
+      <div class="review-product">🍱 楽天 北海道グルメ福袋</div>
+    </div>
+  </div>
+</section>
+
+<!-- CALENDAR -->
+<div class="calendar-section">
+  <div class="calendar-inner">
+    <div class="section-header">
+      <div>
+        <div class="section-en" style="color:#555">Schedule</div>
+        <h2 class="section-title" style="color:white">発売<span style="color:var(--gold)">カレンダー</span></h2>
+      </div>
+      <a href="#" class="see-all" style="color:var(--gold)">すべて見る →</a>
+    </div>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-date">12/26〜</div>
+        <div class="timeline-dot-wrap"><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+        <div class="timeline-content">
+          <div class="timeline-shop">Amazon.co.jp</div>
+          <div class="timeline-title">Amazonタイムセール祭り 先行福袋 予約受付</div>
+          <div class="timeline-tags">
+            <span class="tag hot">🔥 人気</span>
+            <span class="tag limited">数量限定</span>
+            <span class="tag">ガジェット</span>
+          </div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">1/1 00:00</div>
+        <div class="timeline-dot-wrap"><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+        <div class="timeline-content">
+          <div class="timeline-shop">楽天市場</div>
+          <div class="timeline-title">楽天市場 新春初売り 福袋セール 一斉スタート</div>
+          <div class="timeline-tags">
+            <span class="tag hot">🔥 殺到注意</span>
+            <span class="tag">食品</span>
+            <span class="tag">ファッション</span>
+          </div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">1/1 10:00</div>
+        <div class="timeline-dot-wrap"><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+        <div class="timeline-content">
+          <div class="timeline-shop">ZOZOTOWN</div>
+          <div class="timeline-title">ZOZO 福袋 2025 全ブランド同時発売</div>
+          <div class="timeline-tags">
+            <span class="tag limited">早い者勝ち</span>
+            <span class="tag">レディース</span>
+            <span class="tag">メンズ</span>
+          </div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">1/2〜</div>
+        <div class="timeline-dot-wrap"><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+        <div class="timeline-content">
+          <div class="timeline-shop">Yahoo!ショッピング</div>
+          <div class="timeline-title">Yahoo! 新春特大初売り福袋フェア</div>
+          <div class="timeline-tags">
+            <span class="tag">ポイント還元</span>
+            <span class="tag">家電</span>
+          </div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">1/3〜</div>
+        <div class="timeline-dot-wrap"><div class="timeline-dot"></div></div>
+        <div class="timeline-content">
+          <div class="timeline-shop">ヨドバシカメラ</div>
+          <div class="timeline-title">ヨドバシ ゲーム・ホビー 福袋 在庫補充</div>
+          <div class="timeline-tags">
+            <span class="tag hot">🔥 再入荷</span>
+            <span class="tag">ゲーム</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- NEWSLETTER -->
+<section>
+  <div class="newsletter">
+    <h2>福袋情報をいち早くゲット</h2>
+    <p>メールアドレスを登録すると、人気福袋の発売開始・<br>残りわずかなどの最新情報をお知らせします</p>
+    <div class="email-form">
+      <input type="email" placeholder="メールアドレスを入力">
+      <button>無料で登録</button>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 手動記事投稿 + 通知設定 ===== -->
+<section>
+  <div class="section-header">
+    <div>
+      <div class="section-en">Admin</div>
+      <h2 class="section-title">📝 記事投稿<span>＆通知設定</span></h2>
+    </div>
+  </div>
+
+  <!-- 通知設定 -->
+  <div class="notify-section">
+    <div class="notify-section-title">🔔 ショップ新着通知（ブラウザ通知）</div>
+    <p style="font-size:0.82rem;color:#aaa;margin-bottom:14px">以下のショップで福袋が出たときにブラウザ通知で教えます（監視はこのページを開いている間のみ）</p>
+    <div class="notify-shops-grid" id="shopToggles">
+      <label class="shop-toggle on" onclick="toggleShop(this)"><input type="checkbox" checked>🛒 楽天市場</label>
+      <label class="shop-toggle on" onclick="toggleShop(this)"><input type="checkbox" checked>🟡 Yahoo!ショッピング</label>
+      <label class="shop-toggle" onclick="toggleShop(this)"><input type="checkbox">🔴 ヨドバシカメラ</label>
+      <label class="shop-toggle" onclick="toggleShop(this)"><input type="checkbox">🔵 ビックカメラ</label>
+      <label class="shop-toggle" onclick="toggleShop(this)"><input type="checkbox">⚫ ZOZOTOWN</label>
+      <label class="shop-toggle" onclick="toggleShop(this)"><input type="checkbox">🟠 Amazon</label>
+    </div>
+    <button class="notif-permission-btn" onclick="requestNotifPermission()">🔔 ブラウザ通知を許可する</button>
+    <div class="notif-status" id="notifStatus">通知の許可状態: 未設定</div>
+    <div style="margin-top:12px;font-size:0.75rem;color:#bbb;line-height:1.7">
+      ※ ヨドバシ・ビックカメラ・ZOZOはAPIがないため、<strong style="color:var(--mid)">手動登録した記事が公開されたとき</strong>に通知が届きます。<br>
+      ※ ブラウザ通知はこのページを開いている間のみ動作します。常時監視にはサーバー設置が必要です。
+    </div>
+  </div>
+
+  <!-- 記事エディタ -->
+  <div class="editor-section">
+    <div class="editor-header">
+      <span class="editor-header-title">✍️ 新しい記事を書く</span>
+      <span style="font-size:0.75rem;color:rgba(255,255,255,0.6)">投稿するとトップページに反映されます</span>
+    </div>
+    <div class="editor-body">
+      <div class="editor-row">
+        <label class="editor-label">タイトル *</label>
+        <input class="editor-input" id="artTitle" placeholder="例：ヨドバシ 2026年 ゲーム福袋 販売開始！" />
+      </div>
+      <div class="editor-row-3col">
+        <div>
+          <label class="editor-label">ショップ *</label>
+          <select class="editor-select editor-input" id="artShop">
+            <option>ヨドバシカメラ</option>
+            <option>ビックカメラ</option>
+            <option>ZOZOTOWN</option>
+            <option>Amazon</option>
+            <option>楽天市場</option>
+            <option>Yahoo!ショッピング</option>
+            <option>その他</option>
+          </select>
+        </div>
+        <div>
+          <label class="editor-label">カテゴリ</label>
+          <select class="editor-select editor-input" id="artCat">
+            <option>ゲーム・ホビー</option>
+            <option>ファッション</option>
+            <option>食品・グルメ</option>
+            <option>コスメ・美容</option>
+            <option>家電・ガジェット</option>
+            <option>インテリア</option>
+            <option>キッズ</option>
+            <option>その他</option>
+          </select>
+        </div>
+        <div>
+          <label class="editor-label">価格（例: 9,980）</label>
+          <input class="editor-input" id="artPrice" placeholder="¥ 金額を入力" />
+        </div>
+      </div>
+      <div class="editor-row">
+        <label class="editor-label">本文 *</label>
+        <textarea class="editor-textarea" id="artBody" placeholder="福袋の内容・おすすめポイント・購入方法などを書いてください..."></textarea>
+      </div>
+      <div class="editor-row-2col">
+        <div>
+          <label class="editor-label">購入リンク URL</label>
+          <input class="editor-input" id="artUrl" placeholder="https://..." />
+        </div>
+        <div>
+          <label class="editor-label">アイコン絵文字</label>
+          <input class="editor-input" id="artEmoji" placeholder="🎁" maxlength="2" value="🎁" />
+        </div>
+      </div>
+      <button class="btn-publish" onclick="publishArticle()">🚀 投稿してトップページに反映する</button>
+    </div>
+
+    <!-- 投稿済み記事一覧 -->
+    <div style="padding: 0 24px 24px">
+      <div style="font-size:0.82rem;font-weight:700;color:var(--mid);margin-bottom:12px">📋 投稿済み記事</div>
+      <div class="articles-list" id="articlesList">
+        <div class="articles-empty">まだ記事がありません。上のフォームから投稿してください。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== トップ：公開記事フィード ===== -->
+<section class="top-articles-section">
+  <div class="section-header">
+    <div>
+      <div class="section-en">Latest Articles</div>
+      <h2 class="section-title">最新<span>記事</span></h2>
+    </div>
+    <span id="articlesTopCount" style="font-size:0.8rem;color:#aaa;margin-left:auto"></span>
+  </div>
+  <div class="articles-feed" id="articlesFeed">
+    <div class="articles-empty">📰 記事を投稿すると、ここに自動で表示されます</div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo-jp">福袋ナビ</div>
+        <p class="footer-desc">オンライン福袋・ハッピーバッグの情報を<br>まとめて比較できる情報サイトです。<br>毎日最新情報を更新しています。</p>
+      </div>
+      <div class="footer-col">
+        <h4>カテゴリ</h4>
+        <ul>
+          <li><a href="#">ファッション</a></li>
+          <li><a href="#">食品・グルメ</a></li>
+          <li><a href="#">ゲーム・ホビー</a></li>
+          <li><a href="#">コスメ・美容</a></li>
+          <li><a href="#">インテリア</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>ショップ別</h4>
+        <ul>
+          <li><a href="#">Amazon</a></li>
+          <li><a href="#">楽天市場</a></li>
+          <li><a href="#">ZOZOTOWN</a></li>
+          <li><a href="#">Yahoo!ショッピング</a></li>
+          <li><a href="#">ヨドバシ</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>サイト情報</h4>
+        <ul>
+          <li><a href="#">このサイトについて</a></li>
+          <li><a href="#">レビューを投稿</a></li>
+          <li><a href="#">お問い合わせ</a></li>
+          <li><a href="#">プライバシーポリシー</a></li>
+          <li><a href="#">免責事項</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 福袋ナビ. All rights reserved.</span>
+      <span>※本サイトはアフィリエイト広告を含む場合があります</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ===== デモデータ（APIキーなしの場合に表示） =====
+  const DEMO_ITEMS_RAKUTEN = [
+    { name: "【2025年福袋】ファッション10点セット レディース 春コーデ詰め合わせ", price: 9900, reviewAverage: 4.5, reviewCount: 128, shopName: "楽天ファッション", itemUrl: "#", mediumImageUrls: [], source: "rakuten" },
+    { name: "北海道グルメ福袋 海鮮・乳製品たっぷり豪華セット 送料無料", price: 6980, reviewAverage: 4.8, reviewCount: 342, shopName: "北海道直送", itemUrl: "#", mediumImageUrls: [], source: "rakuten" },
+    { name: "コスメ・スキンケア福袋 人気ブランド詰め合わせ 10点入り", price: 5500, reviewAverage: 4.3, reviewCount: 87, shopName: "ビューティーショップ楽天", itemUrl: "#", mediumImageUrls: [], source: "rakuten" },
+    { name: "キッズ玩具福袋 人気おもちゃ5点セット 男女兼用", price: 3980, reviewAverage: 4.6, reviewCount: 215, shopName: "おもちゃ王国", itemUrl: "#", mediumImageUrls: [], source: "rakuten" },
+    { name: "スポーツウェア福袋 ヨガ・フィットネス 5点セット レディース", price: 7700, reviewAverage: 4.4, reviewCount: 156, shopName: "スポーツパーク", itemUrl: "#", mediumImageUrls: [], source: "rakuten" },
+    { name: "和菓子・スイーツ福袋 全国銘菓詰め合わせ 20種類入り", price: 3500, reviewAverage: 4.7, reviewCount: 489, shopName: "和菓子本舗", itemUrl: "#", mediumImageUrls: [], source: "rakuten" },
+  ];
+
+  const DEMO_ITEMS_YAHOO = [
+    { name: "【Yahoo!限定】ハッピーバッグ 人気コスメ8点セット PayPay対応", price: 5980, reviewAverage: 4.2, reviewCount: 94, shopName: "Yahoo!ビューティー", itemUrl: "#", mediumImageUrls: [], source: "yahoo" },
+    { name: "食品ハッピーバッグ お取り寄せグルメ詰め合わせ 15品", price: 4800, reviewAverage: 4.6, reviewCount: 178, shopName: "ごちそう便", itemUrl: "#", mediumImageUrls: [], source: "yahoo" },
+    { name: "インテリア雑貨 ハッピーバッグ 北欧テイスト 8点入り", price: 6500, reviewAverage: 4.0, reviewCount: 52, shopName: "インテリアYahoo店", itemUrl: "#", mediumImageUrls: [], source: "yahoo" },
+    { name: "キッズ服 HAPPY BAG 春夏新作 90〜130cm 6点セット", price: 3800, reviewAverage: 4.5, reviewCount: 133, shopName: "こども服ショップ", itemUrl: "#", mediumImageUrls: [], source: "yahoo" },
+    { name: "アウトドア福袋 キャンプ用品まとめてセット 5点", price: 9800, reviewAverage: 4.3, reviewCount: 67, shopName: "アウトドアベース", itemUrl: "#", mediumImageUrls: [], source: "yahoo" },
+    { name: "ペット用ハッピーバッグ 犬猫おやつ＆グッズ 10点詰め合わせ", price: 2980, reviewAverage: 4.8, reviewCount: 312, shopName: "ペットパラダイス", itemUrl: "#", mediumImageUrls: [], source: "yahoo" },
+  ];
+
+  const EMOJI_MAP = { "ファッション": "👗", "グルメ": "🍱", "コスメ": "💄", "スキンケア": "✨", "キッズ": "🧸", "食器": "🍽️", "キッチン": "🍳", "スポーツ": "⚽", "和菓子": "🍡", "スイーツ": "🍰", "アクセサリー": "💍", "海鮮": "🦞" };
+
+  function getEmoji(name) {
+    for (const [key, emoji] of Object.entries(EMOJI_MAP)) {
+      if (name.includes(key)) return emoji;
+    }
+    return "🎁";
+  }
+
+  function renderStars(avg) {
+    const full = Math.floor(avg);
+    const half = avg - full >= 0.5 ? 1 : 0;
+    return "★".repeat(full) + (half ? "☆" : "") + ` ${avg.toFixed(1)}`;
+  }
+
+  let currentSource = "both";
+
+  function switchSource(src) {
+    currentSource = src;
+    document.querySelectorAll(".source-tab").forEach(t => t.classList.remove("active"));
+    document.getElementById("tab-" + src).classList.add("active");
+  }
+
+  function renderCards(items) {
+    const container = document.getElementById("api-results");
+    container.innerHTML = "";
+    const meta = document.getElementById("resultsMeta");
+    if (items.length === 0) {
+      container.innerHTML = '<p style="color:#aaa;text-align:center;padding:32px;">該当する福袋が見つかりませんでした</p>';
+      meta.style.display = "none";
+      return;
+    }
+    const rCount = items.filter(i => i.source === "rakuten").length;
+    const yCount = items.filter(i => i.source === "yahoo").length;
+    document.getElementById("resultsCount").textContent =
+      `全 ${items.length}件（楽天 ${rCount}件 ／ Yahoo! ${yCount}件）`;
+    meta.style.display = "flex";
+
+    items.forEach(item => {
+      const hasImg = item.mediumImageUrls && item.mediumImageUrls.length > 0;
+      const imgUrl = hasImg ? item.mediumImageUrls[0].imageUrl : null;
+      const emoji = getEmoji(item.name);
+      const price = item.itemPrice || item.price;
+      const isYahoo = item.source === "yahoo";
+      const srcLabel = isYahoo ? "Yahoo!" : "楽天";
+      const srcClass = isYahoo ? "src-yahoo" : "src-rakuten";
+      const btnLabel = isYahoo ? "Yahoo!で見る →" : "楽天で見る →";
+
+      const card = document.createElement("a");
+      card.href = item.itemUrl || "#";
+      card.target = "_blank";
+      card.rel = "noopener noreferrer";
+      card.className = "api-card";
+      card.innerHTML = `
+        <span class="api-card-source ${srcClass}">${srcLabel}</span>
+        ${imgUrl
+          ? `<img class="api-card-img" src="${imgUrl}" alt="${item.name}" loading="lazy">`
+          : `<div class="api-card-img-placeholder">${emoji}</div>`}
+        <div class="api-card-body">
+          <div class="api-card-shop">🏪 ${item.shopName}</div>
+          <div class="api-card-title">${item.name}</div>
+          <div class="api-card-price">¥${Number(price).toLocaleString()}</div>
+          ${(item.reviewAverage > 0)
+            ? `<div class="api-card-review">${renderStars(item.reviewAverage)} <span style="color:#bbb">(${item.reviewCount}件)</span></div>`
+            : ""}
+        </div>
+        <span class="api-card-btn" style="${isYahoo ? 'background:linear-gradient(135deg,#FF6600,#FF0033)' : ''}">${btnLabel}</span>
+      `;
+      container.appendChild(card);
+    });
+  }
+
+  async function fetchRakuten(keyword, apiKey) {
+    if (!apiKey) return DEMO_ITEMS_RAKUTEN;
+    try {
+      const sortMap = { review: "-reviewCount", price_asc: "+itemPrice", price_desc: "-itemPrice", new: "-updateTimestamp" };
+      const sort = sortMap[document.getElementById("sortSelect")?.value] || "-reviewCount";
+      // CORSプロキシ経由で楽天APIを叩く
+      const rakutenUrl = `https://app.rakuten.co.jp/services/api/IchibaItem/Search/20170706?format=json&keyword=${encodeURIComponent(keyword)}&applicationId=${apiKey}&hits=12&sort=${sort}&availability=1`;
+      const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(rakutenUrl)}`;
+      const res = await fetch(proxyUrl);
+      const data = await res.json();
+      if (data.error || !data.Items) return DEMO_ITEMS_RAKUTEN;
+      return data.Items.map(i => ({ ...i.Item, name: i.Item.itemName, price: i.Item.itemPrice, source: "rakuten" }));
+    } catch(e) {
+      console.error("楽天API error:", e);
+      return DEMO_ITEMS_RAKUTEN;
+    }
+  }
+
+  async function fetchYahoo(keyword, apiKey) {
+    if (!apiKey) return DEMO_ITEMS_YAHOO;
+    try {
+      // Yahoo!ショッピング商品検索API
+      const sortMap = { review: "-review_count", price_asc: "+price", price_desc: "-price", new: "-release_date" };
+      const sort = sortMap[document.getElementById("sortSelect").value] || "-review_count";
+      const url = `https://shopping.yahooapis.jp/ShoppingWebService/V3/itemSearch?appid=${apiKey}&query=${encodeURIComponent(keyword)}&results=12&sort=${sort}&in_stock=true`;
+      const res = await fetch(url);
+      const data = await res.json();
+      if (!data.hits) return [];
+      return data.hits.map(h => ({
+        name: h.name, price: h.price, reviewAverage: h.review?.rate || 0,
+        reviewCount: h.review?.count || 0, shopName: h.seller?.name || "Yahoo!ショップ",
+        itemUrl: h.url, mediumImageUrls: h.image?.medium ? [{ imageUrl: h.image.medium }] : [],
+        source: "yahoo"
+      }));
+    } catch { return []; }
+  }
+
+  async function searchAll() {
+    const rakutenKey = document.getElementById("apiKey").value.trim();
+    const yahooKey = document.getElementById("yahooApiKey").value.trim();
+    const keyword = document.getElementById("searchWord").value.trim() || "福袋";
+    const loading = document.getElementById("api-loading");
+    const error = document.getElementById("api-error");
+
+    error.style.display = "none";
+    document.getElementById("api-results").innerHTML = "";
+    document.getElementById("resultsMeta").style.display = "none";
+    loading.style.display = "flex";
+    loading.style.flexDirection = "column";
+    loading.style.alignItems = "center";
+    document.getElementById("loadingText").textContent = "楽天・Yahoo!から検索中...";
+
+    await new Promise(r => setTimeout(r, 600)); // デモ用の自然な待機
+
+    let rakutenItems = [], yahooItems = [];
+
+    if (currentSource === "both" || currentSource === "rakuten") {
+      document.getElementById("loadingText").textContent = "楽天市場を検索中...";
+      rakutenItems = await fetchRakuten(keyword, rakutenKey);
+    }
+    if (currentSource === "both" || currentSource === "yahoo") {
+      document.getElementById("loadingText").textContent = "Yahoo!ショッピングを検索中...";
+      yahooItems = await fetchYahoo(keyword, yahooKey);
+    }
+
+    loading.style.display = "none";
+
+    // 交互に並べてまとめる（楽天・Yahoo!が交互に表示される）
+    const merged = [];
+    const maxLen = Math.max(rakutenItems.length, yahooItems.length);
+    for (let i = 0; i < maxLen; i++) {
+      if (rakutenItems[i]) merged.push(rakutenItems[i]);
+      if (yahooItems[i]) merged.push(yahooItems[i]);
+    }
+
+    if (merged.length === 0) {
+      error.textContent = "⚠️ 検索結果が0件でした。キーワードやAPIキーを確認してください。";
+      error.style.display = "block";
+      return;
+    }
+    renderCards(merged);
+  }
+
+  // 旧関数との互換性のために残す
+  async function searchRakuten() { await searchAll(); }
+
+  // ===== 自動収集システム =====
+  let autoTimer = null;
+  let knownItems = new Set(); // 既知のアイテムID管理
+  let collectCount = 0;
+  let newItemsAll = [];
+
+  // デモ用の新着ダミーデータ（毎回ランダムに1〜3件追加される）
+  const DEMO_NEW_POOL = [
+    { id: "d01", name: "【数量限定】春の新作コスメ福袋 人気5ブランド詰め合わせ", price: 6800, shopName: "コスメストア", emoji: "💄" },
+    { id: "d02", name: "キッズ春服 80-130cm 10点入り福袋 男女兼用", price: 4980, shopName: "子供服マート", emoji: "🧸" },
+    { id: "d03", name: "グルメ福袋 九州の味 詰め合わせ15品セット 送料無料", price: 5500, shopName: "九州直送", emoji: "🍱" },
+    { id: "d04", name: "ハッピーバッグ ヨガ・フィットネスウェア 春夏新作5点", price: 7200, shopName: "スポーツショップ", emoji: "⚽" },
+    { id: "d05", name: "アクセサリー福袋 春コレクション シルバー8点セット", price: 2980, shopName: "ジュエリーBox", emoji: "💍" },
+    { id: "d06", name: "インテリア雑貨 HAPPY BAG 北欧スタイル 春限定", price: 3980, shopName: "インテリアショップ", emoji: "🏡" },
+    { id: "d07", name: "スキンケア福袋 敏感肌向け 人気化粧水・乳液セット", price: 5800, shopName: "ナチュラルビューティー", emoji: "✨" },
+    { id: "d08", name: "食器・キッチン HAPPY BAG 春の新生活応援セット", price: 4500, shopName: "キッチンスタジオ", emoji: "🍽️" },
+    { id: "d09", name: "レディースファッション福袋 春コーデ完成セット 7点入り", price: 8900, shopName: "ファッションモール", emoji: "👗" },
+    { id: "d10", name: "和菓子・スイーツ福袋 桜の季節限定 12品詰め合わせ", price: 3200, shopName: "和菓子本舗", emoji: "🍡" },
+  ];
+
+  function nowStr() {
+    return new Date().toLocaleTimeString("ja-JP", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+  }
+
+  function addLog(msg, type = "") {
+    const log = document.getElementById("autoLog");
+    const line = document.createElement("div");
+    line.className = "log-line";
+    line.innerHTML = `<span class="log-time">${nowStr()}</span><span class="${type ? "log-" + type : ""}">${msg}</span>`;
+    log.appendChild(line);
+    log.scrollTop = log.scrollHeight;
+  }
+
+  function updateStatus(text, active = false) {
+    document.getElementById("statusText").textContent = text;
+    const dot = document.getElementById("statusDot");
+    dot.className = "pulse-dot" + (active ? "" : " waiting");
+  }
+
+  function renderNewItem(item, index) {
+    const grid = document.getElementById("newItemsGrid");
+    // 最初のアイテムならemptyを消す
+    const empty = grid.querySelector(".auto-empty");
+    if (empty) grid.innerHTML = "";
+
+    const card = document.createElement("div");
+    card.className = "new-item-card";
+    card.style.animationDelay = `${index * 0.08}s`;
+    card.innerHTML = `
+      <div class="new-item-badge">🆕 新着</div>
+      <div style="font-size:2rem;text-align:center;padding:8px 0">${item.emoji || "🎁"}</div>
+      <div class="new-item-title">${item.name}</div>
+      <div class="new-item-shop">🏪 ${item.shopName}</div>
+      <div class="new-item-price">¥${Number(item.price).toLocaleString()}</div>
+      <a href="${item.itemUrl || "#"}" target="_blank" class="new-item-link">楽天で見る →</a>
+    `;
+    grid.prepend(card);
+  }
+
+  async function doCollect() {
+    collectCount++;
+    const apiKey = document.getElementById("autoApiKey").value.trim();
+    const now = new Date().toLocaleString("ja-JP");
+    document.getElementById("lastChecked").textContent = ` — 最終確認: ${now}`;
+    addLog(`第${collectCount}回 収集開始...`);
+
+    if (!apiKey) {
+      // デモモード：ランダムで1〜2件の新着をシミュレート
+      await new Promise(r => setTimeout(r, 600));
+      const shuffled = [...DEMO_NEW_POOL].sort(() => Math.random() - 0.5);
+      const pickCount = Math.floor(Math.random() * 2) + 1;
+      let foundNew = 0;
+      for (let i = 0; i < pickCount; i++) {
+        const item = shuffled[i];
+        const uniqueId = item.id + "_" + collectCount + "_" + i;
+        if (!knownItems.has(uniqueId)) {
+          knownItems.add(uniqueId);
+          newItemsAll.unshift(item);
+          renderNewItem(item, foundNew);
+          foundNew++;
+        }
+      }
+      if (foundNew > 0) {
+        addLog(`✨ 新着${foundNew}件を検出しました！`, "new");
+        document.getElementById("newCount").textContent = `（合計 ${newItemsAll.length}件）`;
+      } else {
+        addLog("変化なし — 新着はありませんでした", "warn");
+      }
+      addLog(`収集完了`);
+      return;
+    }
+
+    // 本番：楽天APIで取得
+    try {
+      const keywords = ["福袋", "ハッピーバッグ", "happy bag"];
+      let foundNew = 0;
+      for (const kw of keywords) {
+        const rakutenUrl = `https://app.rakuten.co.jp/services/api/IchibaItem/Search/20170706?format=json&keyword=${encodeURIComponent(kw)}&applicationId=${apiKey}&hits=10&sort=-updateTimestamp&availability=1`;
+        const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(rakutenUrl)}`;
+        const res = await fetch(proxyUrl);
+        const data = await res.json();
+        if (data.error) { addLog(`⚠️ APIエラー: ${data.error_description}`, "err"); continue; }
+        const items = (data.Items || []).map(i => i.Item);
+        for (const item of items) {
+          const id = item.itemCode;
+          if (!knownItems.has(id)) {
+            knownItems.add(id);
+            const enriched = { ...item, emoji: getEmoji(item.itemName || ""), name: item.itemName, price: item.itemPrice, shopName: item.shopName, itemUrl: item.itemUrl };
+            newItemsAll.unshift(enriched);
+            renderNewItem(enriched, foundNew);
+            foundNew++;
+          }
+        }
+      }
+      if (foundNew > 0) {
+        addLog(`✨ 新着${foundNew}件を検出！`, "new");
+        document.getElementById("newCount").textContent = `（合計 ${newItemsAll.length}件）`;
+      } else {
+        addLog("変化なし", "warn");
+      }
+    } catch (e) {
+      addLog("⚠️ 通信エラーが発生しました", "err");
+    }
+    addLog("収集完了");
+  }
+
+  function startAutoCollect() {
+    if (autoTimer) return;
+    const interval = parseInt(document.getElementById("intervalSelect").value);
+    updateStatus("収集中", true);
+    addLog("▶ 自動収集を開始しました", "new");
+    document.getElementById("btnStart").style.display = "none";
+    document.getElementById("btnStop").style.display = "inline-block";
+    doCollect(); // 即時1回実行
+    autoTimer = setInterval(doCollect, interval);
+  }
+
+  function stopAutoCollect() {
+    if (autoTimer) { clearInterval(autoTimer); autoTimer = null; }
+    updateStatus("停止中");
+    addLog("⏹ 自動収集を停止しました");
+    document.getElementById("btnStart").style.display = "inline-block";
+    document.getElementById("btnStop").style.display = "none";
+  }
+
+  function clearNewItems() {
+    newItemsAll = [];
+    knownItems = new Set();
+    collectCount = 0;
+    document.getElementById("newCount").textContent = "";
+    document.getElementById("newItemsGrid").innerHTML = `
+      <div class="auto-empty">
+        <span class="big-icon">🎁</span>
+        自動収集を開始すると、<br>新着の福袋がここに表示されます
+      </div>`;
+    addLog("🗑 新着リストをクリアしました");
+  }
+
+  function saveNotifyEmail() {
+    const email = document.getElementById("notifyEmail").value.trim();
+    if (!email || !email.includes("@")) { alert("正しいメールアドレスを入力してください"); return; }
+    // 実際の運用ではサーバーに保存。ここではローカル表示のみ
+    document.getElementById("notifySaved").style.display = "inline";
+    addLog(`🔔 通知メール登録: ${email}`, "new");
+    setTimeout(() => { document.getElementById("notifySaved").style.display = "none"; }, 3000);
+  }
+
+  // ===== ブラウザ通知システム =====
+  function toggleShop(label) {
+    label.classList.toggle("on");
+    saveShopToggles();
+  }
+
+  async function requestNotifPermission() {
+    if (!("Notification" in window)) {
+      document.getElementById("notifStatus").textContent = "⚠️ このブラウザは通知に対応していません";
+      document.getElementById("notifStatus").className = "notif-status denied";
+      return;
+    }
+    const perm = await Notification.requestPermission();
+    const el = document.getElementById("notifStatus");
+    if (perm === "granted") {
+      el.textContent = "✅ 通知が許可されました！新着福袋が出たときにお知らせします";
+      el.className = "notif-status granted";
+      new Notification("福袋ナビ 🎁", { body: "通知の設定が完了しました！新着福袋をお知らせします", icon: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎁</text></svg>" });
+    } else if (perm === "denied") {
+      el.textContent = "❌ 通知がブロックされています。ブラウザの設定から許可してください";
+      el.className = "notif-status denied";
+    } else {
+      el.textContent = "通知の許可状態: 未設定";
+      el.className = "notif-status";
+    }
+  }
+
+  function sendBrowserNotif(title, body, shop) {
+    if (Notification.permission !== "granted") return;
+    // 選択されたショップかチェック
+    const activeShops = [...document.querySelectorAll(".shop-toggle.on")].map(l => l.textContent.trim());
+    const isActive = activeShops.some(s => s.includes(shop));
+    if (!isActive) return;
+    new Notification(`🎁 新着！${shop}`, {
+      body: body,
+      icon: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎁</text></svg>",
+      tag: shop + Date.now()
+    });
+  }
+
+  // ===== localStorage 永続化システム =====
+  const LS_KEYS = {
+    articles:    "fukubukuro_articles",
+    shopToggles: "fukubukuro_shop_toggles",
+    notifyEmail: "fukubukuro_notify_email",
+    rakutenKey:  "fukubukuro_rakuten_key",
+    yahooKey:    "fukubukuro_yahoo_key",
+    autoApiKey:  "fukubukuro_auto_api_key",
+    interval:    "fukubukuro_interval",
+  };
+
+  function lsSave(key, value) {
+    try { localStorage.setItem(key, JSON.stringify(value)); } catch(e) {}
+  }
+
+  function lsLoad(key, fallback) {
+    try {
+      const v = localStorage.getItem(key);
+      return v !== null ? JSON.parse(v) : fallback;
+    } catch(e) { return fallback; }
+  }
+
+  // 記事を保存
+  function saveArticles() {
+    // dateRaw は Date オブジェクトなので文字列化
+    const toSave = articles.map(a => ({ ...a, dateRaw: a.dateRaw?.toString() || "" }));
+    lsSave(LS_KEYS.articles, toSave);
+  }
+
+  // 記事を読み込み
+  function loadArticles() {
+    const saved = lsLoad(LS_KEYS.articles, []);
+    articles = saved.map(a => ({ ...a, dateRaw: a.dateRaw ? new Date(a.dateRaw) : new Date() }));
+  }
+
+  // 通知ショップ設定を保存
+  function saveShopToggles() {
+    const states = [...document.querySelectorAll(".shop-toggle")].map(l => l.classList.contains("on"));
+    lsSave(LS_KEYS.shopToggles, states);
+  }
+
+  // 通知ショップ設定を復元
+  function loadShopToggles() {
+    const saved = lsLoad(LS_KEYS.shopToggles, null);
+    if (!saved) return;
+    document.querySelectorAll(".shop-toggle").forEach((l, i) => {
+      if (saved[i] !== undefined) {
+        saved[i] ? l.classList.add("on") : l.classList.remove("on");
+      }
+    });
+  }
+
+  // APIキー・設定を保存・復元
+  function saveSettings() {
+    lsSave(LS_KEYS.rakutenKey,  document.getElementById("apiKey")?.value || "");
+    lsSave(LS_KEYS.yahooKey,    document.getElementById("yahooApiKey")?.value || "");
+    lsSave(LS_KEYS.autoApiKey,  document.getElementById("autoApiKey")?.value || "");
+    lsSave(LS_KEYS.interval,    document.getElementById("intervalSelect")?.value || "3600000");
+  }
+
+  function loadSettings() {
+    const rk = lsLoad(LS_KEYS.rakutenKey, "");
+    const yk = lsLoad(LS_KEYS.yahooKey, "");
+    const ak = lsLoad(LS_KEYS.autoApiKey, "");
+    const iv = lsLoad(LS_KEYS.interval, "3600000");
+    if (document.getElementById("apiKey") && rk) document.getElementById("apiKey").value = rk;
+    if (document.getElementById("yahooApiKey") && yk) document.getElementById("yahooApiKey").value = yk;
+    if (document.getElementById("autoApiKey") && ak) document.getElementById("autoApiKey").value = ak;
+    if (document.getElementById("intervalSelect")) document.getElementById("intervalSelect").value = iv;
+  }
+
+  // メールを保存・復元
+  function saveNotifyEmailLS() {
+    lsSave(LS_KEYS.notifyEmail, document.getElementById("notifyEmail")?.value || "");
+  }
+  function loadNotifyEmail() {
+    const em = lsLoad(LS_KEYS.notifyEmail, "");
+    if (em && document.getElementById("notifyEmail")) document.getElementById("notifyEmail").value = em;
+  }
+
+  // ===== 記事管理システム =====
+  let articles = [];
+
+  const CATEGORY_EMOJI = {
+    "ゲーム・ホビー": "🎮", "ファッション": "👗", "食品・グルメ": "🍱",
+    "コスメ・美容": "💄", "家電・ガジェット": "📱", "インテリア": "🏡",
+    "キッズ": "🧸", "その他": "🎁"
+  };
+
+  function publishArticle() {
+    const title = document.getElementById("artTitle").value.trim();
+    const shop  = document.getElementById("artShop").value;
+    const cat   = document.getElementById("artCat").value;
+    const price = document.getElementById("artPrice").value.trim();
+    const body  = document.getElementById("artBody").value.trim();
+    const url   = document.getElementById("artUrl").value.trim();
+    const emoji = document.getElementById("artEmoji").value.trim() || CATEGORY_EMOJI[cat] || "🎁";
+
+    if (!title || !body) { alert("タイトルと本文は必須です！"); return; }
+
+    const article = {
+      id: Date.now(),
+      title, shop, cat, price, body, url, emoji,
+      date: new Date().toLocaleDateString("ja-JP", { year: "numeric", month: "long", day: "numeric" }),
+      dateRaw: new Date()
+    };
+
+    articles.unshift(article);
+    saveArticles();
+    renderAdminList();
+    renderTopFeed();
+
+    // ブラウザ通知を送る
+    sendBrowserNotif(shop, `${title}${price ? "　¥" + price : ""}`, shop);
+    // 自動収集ログにも記録
+    if (document.getElementById("autoLog")) {
+      addLog(`📝 記事を公開しました：${shop} / ${title}`, "new");
+    }
+
+    // フォームリセット
+    ["artTitle","artPrice","artBody","artUrl"].forEach(id => document.getElementById(id).value = "");
+    document.getElementById("artEmoji").value = "🎁";
+
+    // 投稿完了フラッシュ
+    const btn = document.querySelector(".btn-publish");
+    btn.textContent = "✅ 投稿完了！トップページに反映しました";
+    btn.style.background = "linear-gradient(135deg,#52B788,#2d9966)";
+    setTimeout(() => {
+      btn.textContent = "🚀 投稿してトップページに反映する";
+      btn.style.background = "";
+    }, 2500);
+  }
+
+  function deleteArticle(id) {
+    articles = articles.filter(a => a.id !== id);
+    saveArticles();
+    renderAdminList();
+    renderTopFeed();
+  }
+
+  function renderAdminList() {
+    const el = document.getElementById("articlesList");
+    if (articles.length === 0) {
+      el.innerHTML = '<div class="articles-empty">まだ記事がありません。上のフォームから投稿してください。</div>';
+      return;
+    }
+    el.innerHTML = "";
+    articles.forEach(a => {
+      const card = document.createElement("div");
+      card.className = "article-admin-card";
+      card.innerHTML = `
+        <div class="article-admin-emoji">${a.emoji}</div>
+        <div class="article-admin-info">
+          <div class="article-admin-title">${a.title}</div>
+          <div class="article-admin-meta">${a.shop} ／ ${a.cat} ／ ${a.date}${a.price ? " ／ ¥" + a.price : ""}</div>
+        </div>
+        <div class="article-admin-actions">
+          <button class="btn-del" onclick="deleteArticle(${a.id})">削除</button>
+        </div>
+      `;
+      el.appendChild(card);
+    });
+  }
+
+  function renderTopFeed() {
+    const feed = document.getElementById("articlesFeed");
+    const count = document.getElementById("articlesTopCount");
+    if (articles.length === 0) {
+      feed.innerHTML = '<div class="articles-empty">📰 記事を投稿すると、ここに自動で表示されます</div>';
+      count.textContent = "";
+      return;
+    }
+    count.textContent = `全 ${articles.length}件`;
+    feed.innerHTML = "";
+    articles.forEach((a, i) => {
+      const card = document.createElement("div");
+      card.className = "article-card";
+      card.style.animationDelay = `${i * 0.06}s`;
+      card.innerHTML = `
+        <div class="article-card-emoji">${a.emoji}</div>
+        <div class="article-card-body">
+          <span class="article-card-cat">${a.shop} ／ ${a.cat}</span>
+          <div class="article-card-title">${a.title}</div>
+          <div class="article-card-body-text">${a.body}</div>
+          <div class="article-card-footer">
+            <span class="article-card-meta">📅 ${a.date}</span>
+            ${a.price ? `<span class="article-card-price">¥${a.price}</span>` : ""}
+            ${a.url ? `<a href="${a.url}" target="_blank" class="article-card-link">購入ページへ →</a>` : ""}
+          </div>
+        </div>
+      `;
+      feed.appendChild(card);
+    });
+  }
+
+  // カテゴリピルのクリック
+  document.querySelectorAll(".cat-pill").forEach(pill => {
+    pill.addEventListener("click", () => {
+      document.querySelectorAll(".cat-pill").forEach(p => p.classList.remove("active"));
+      pill.classList.add("active");
+      const label = pill.textContent.trim();
+      document.getElementById("searchWord").value = label === "すべて" ? "福袋" : label.replace(/^./, "").trim() + " 福袋";
+    });
+  });
+
+  // ページ読み込み時：保存データを全部復元してから検索
+  window.addEventListener("DOMContentLoaded", () => {
+    // 1. 設定・APIキーを復元
+    loadSettings();
+    loadNotifyEmail();
+
+    // 2. ショップ通知トグルを復元
+    loadShopToggles();
+
+    // 3. 記事を復元してレンダリング
+    loadArticles();
+    if (articles.length > 0) {
+      renderAdminList();
+      renderTopFeed();
+    }
+
+    // 4. APIキー入力時に自動保存
+    ["apiKey","yahooApiKey","autoApiKey"].forEach(id => {
+      document.getElementById(id)?.addEventListener("input", saveSettings);
+    });
+    document.getElementById("intervalSelect")?.addEventListener("change", saveSettings);
+    document.getElementById("notifyEmail")?.addEventListener("input", saveNotifyEmailLS);
+
+    // 5. デモデータ表示
+    searchAll();
+
+    // 6. 復元件数をログに表示
+    if (articles.length > 0 && document.getElementById("autoLog")) {
+      addLog(`💾 保存済みデータを復元：記事 ${articles.length}件`, "new");
+    }
+  });
+</script>
+</body>
+</html>
